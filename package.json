@@ -1,0 +1,24 @@
+{
+  "name": "prework_nodejs",
+  "version": "1.0.0",
+  "description": "Prework project for nodejs fall session",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HieuNM6/prework_nodejs.git"
+  },
+  "author": "HieuNM6",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HieuNM6/prework_nodejs/issues"
+  },
+  "homepage": "https://github.com/HieuNM6/prework_nodejs#readme",
+  "dependencies": {
+    "request": "^2.75.0",
+    "yargs": "^3.32.0"
+  }
+}
