@@ -13,6 +13,7 @@ let argv = require('yargs')
   .help('h')
   .alias('h', 'help')
   .example('node index.js -h google.com',"Send request via Proxy to google.com" )
+  .describe('port_ssl', 'Start proxy server as https and listen in specific port')
   .argv
 
 proxyServer(argv);

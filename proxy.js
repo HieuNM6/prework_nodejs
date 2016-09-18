@@ -5,7 +5,7 @@ let stream = require('stream')
 let path = require('path')
 let fs = require('fs')
 
-let options2 = {
+let optionsSSL = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
 };
@@ -40,28 +40,53 @@ module.exports = (argv) => {
     req.pipe(res);
   }).listen(8000)
 
-  https.createServer(options2, (req, res) => {
+  if (argv.port_ssl !== undefined) {
+    https.createServer(optionsSSL, (req, res) => {
 
-    var backupDestinationUrl = destinationUrl;
-    // set url by header
-    if (req.headers['x-destination-url'] !== undefined)
-      destinationUrl = req.headers['x-destination-url']
+      var backupDestinationUrl = destinationUrl;
+      // set url by header
+      if (req.headers['x-destination-url'] !== undefined)
+        destinationUrl = req.headers['x-destination-url']
 
-    let options = {
-      headers: req.headers,
-      url: `${destinationUrl}${req.url}`
-    }
+      let options = {
+        headers: req.headers,
+        url: `${destinationUrl}${req.url}`
+      }
 
-    log(7,`Proxying request to: ${destinationUrl + req.url}`)
-    options.method = req.method
+      log(7,`Proxying request to: ${destinationUrl + req.url}`)
+      options.method = req.method
 
-    let downstreamResponse = req.pipe(request(options))
-    // restored url
-    destinationUrl = backupDestinationUrl
-    log(6, 'Proxy Request:', logStream)
-    log(6, JSON.stringify(downstreamResponse.headers), logStream)
-    downstreamResponse.pipe(res)
-  }).listen(8001)
+      let downstreamResponse = req.pipe(request(options))
+      // restored url
+      destinationUrl = backupDestinationUrl
+      log(6, 'Proxy Request:', logStream)
+      log(6, JSON.stringify(downstreamResponse.headers), logStream)
+      downstreamResponse.pipe(res)
+    }).listen(argv.port_ssl)
+  } else {
+    http.createServer((req, res) => {
+
+      var backupDestinationUrl = destinationUrl;
+      // set url by header
+      if (req.headers['x-destination-url'] !== undefined)
+        destinationUrl = req.headers['x-destination-url']
+
+      let options = {
+        headers: req.headers,
+        url: `${destinationUrl}${req.url}`
+      }
+
+      log(7,`Proxying request to: ${destinationUrl + req.url}`)
+      options.method = req.method
+
+      let downstreamResponse = req.pipe(request(options))
+      // restored url
+      destinationUrl = backupDestinationUrl
+      log(6, 'Proxy Request:', logStream)
+      log(6, JSON.stringify(downstreamResponse.headers), logStream)
+      downstreamResponse.pipe(res)
+    }).listen(8001)
+  }
 
   function log( level, msg, streamobj) {
     if (typeof msg === 'string' && !(streamobj instanceof stream.Stream)) {
