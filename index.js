@@ -12,6 +12,7 @@ let argv = require('yargs')
   .describe('u', 'Specify a full URL')
   .help('h')
   .alias('h', 'help')
+  .example('node index.js -h google.com',"Send request via Proxy to google.com" )
   .argv
 
 proxyServer(argv);
