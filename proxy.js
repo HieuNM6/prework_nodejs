@@ -1,8 +1,14 @@
+let https = require('https')
 let http = require('http')
 let request = require('request')
 let stream = require('stream')
 let path = require('path')
 let fs = require('fs')
+
+let options2 = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+};
 
 module.exports = (argv) => {
   let logPath = argv.log && path.join(__dirname, argv.log)
@@ -34,7 +40,7 @@ module.exports = (argv) => {
     req.pipe(res);
   }).listen(8000)
 
-  http.createServer((req, res) => {
+  https.createServer(options2, (req, res) => {
 
     var backupDestinationUrl = destinationUrl;
     // set url by header
