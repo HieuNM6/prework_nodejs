@@ -4,6 +4,7 @@ let request = require('request')
 let stream = require('stream')
 let path = require('path')
 let fs = require('fs')
+const chalk = require('chalk')
 
 let optionsSSL = {
   key: fs.readFileSync('key.pem'),
@@ -90,7 +91,7 @@ module.exports = (argv) => {
 
   function log( level, msg, streamobj) {
     if (typeof msg === 'string' && !(streamobj instanceof stream.Stream)) {
-      console.log(`[${secLogLevel[level]}] ${msg}`);
+      console.log(`[${chalk.yellow(secLogLevel[level])}] ${chalk.green(msg)}`);
     } else if ( typeof msg === 'string' && (streamobj instanceof stream.Stream)) {
       streamobj.write(`\n\n[${secLogLevel[level]}] ${msg}`)
     }
