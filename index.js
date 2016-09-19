@@ -16,6 +16,7 @@ let argv = require('yargs')
   .alias('h', 'help')
   .example('node index.js -h google.com',"Send request via Proxy to google.com" )
   .describe('port_ssl', 'Start proxy server as https and listen in specific port')
+  .describe('exec', 'Process forwarding')
   .argv
 if (argv.exec !== undefined) {
   exec(argv.exec, (error, stdout, stderr) => {
