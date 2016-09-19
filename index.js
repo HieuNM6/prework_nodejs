@@ -1,4 +1,6 @@
 let proxyServer = require('./proxy')
+let exec = require('child_process').exec
+let chalk = require('chalk')
 let argv = require('yargs')
   .usage('Usage: node ./index.js [options]')
   .alias('x', 'host')
@@ -15,6 +17,15 @@ let argv = require('yargs')
   .example('node index.js -h google.com',"Send request via Proxy to google.com" )
   .describe('port_ssl', 'Start proxy server as https and listen in specific port')
   .argv
-
-proxyServer(argv);
+if (argv.exec !== undefined) {
+  exec(argv.exec, (error, stdout, stderr) => {
+    console.log(chalk.green(stdout));
+    console.log(chalk.red(stderr));
+    if (error !== null) {
+        console.log('exec error: ' + error);
+    }
+  });
+} else {
+  proxyServer(argv);
+}
 
