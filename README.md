@@ -10,7 +10,6 @@ Time spent: **10** hours
 
 The following **required** functionality is complete:
 
-
 * [x] Successfully echo requests made to the echo server.
 * [x] Successfully proxy requests made to the proxy server.
 * [x] Add CLI for additional argument to proxy server.
@@ -27,7 +26,7 @@ The following **optional** functionality is complete:
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough]()
+![Video Walkthrough](https://raw.githubusercontent.com/HieuNM6/prework_nodejs/master/screen.gif)
 
 GIF created with [Silent Cast](https://github.com/colinkeenan/silentcast).
 
